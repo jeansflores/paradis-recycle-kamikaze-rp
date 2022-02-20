@@ -3,7 +3,7 @@ import React from 'react'
 
 const Footer = () => {
   return (
-    <FooterAntd style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</FooterAntd>
+    <FooterAntd style={{ textAlign: 'center' }}>Created by <a href="https://github.com/jeansflores">jeansflores</a></FooterAntd>
   )
 }
 

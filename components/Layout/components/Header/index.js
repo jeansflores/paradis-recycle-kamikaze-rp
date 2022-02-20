@@ -10,6 +10,14 @@ import { Typography } from 'antd';
 
 const { Title } = Typography;
 
+const CustomHeader = styled(HeaderAntd)`
+  padding: 0 24px !important;
+
+  @media (min-width: 768px) {
+    padding: 0 40px !important;
+  }
+`;
+
 const Container = styled.div`
   max-width: 1360px;
   margin: 0 auto;
@@ -18,11 +26,32 @@ const Container = styled.div`
 `;
 
 const Brand = styled.a`
+  display: flex;
+  max-height: 50px;
   align-self: center;
+  align-item: center;
 
   h3 {
+    display: none;
+    align-self: center;
     margin-right: 24px;
     margin-bottom: 0;
+  }
+
+  span {
+    display: inline-block !important;
+    width: 50px;
+    max-height: 50px;
+  }
+
+  img {
+    margin-right: 8px !important;
+  }
+
+  @media (min-width: 576px) {
+    h3 {
+      display: block;
+    }
   }
 `;
 
@@ -32,12 +61,14 @@ const Header = () => {
   const selectedKey = pathname !== '/' ? [pathname] : [''];
 
   return (
-    <HeaderAntd>
+    <CustomHeader>
       <Container>
-        <Link href="/">
+        <Link href="/" passHref>
           <Brand>
+            <Image src="/potencia.png" alt="Paradis Recycle" width="50" height="50" />
             <Title level={3}>Paradis Recycle</Title>
           </Brand>
+
         </Link>
         <Menu theme="light" mode="horizontal" selectedKeys={selectedKey} style={{ width: 245 }}>
           <Menu.Item key="/compra">
@@ -63,7 +94,7 @@ const Header = () => {
           </Menu.Item>
         </Menu>
       </Container>
-    </HeaderAntd>
+    </CustomHeader>
   )
 }
 
