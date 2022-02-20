@@ -1,26 +1,13 @@
-import { Content } from 'antd/lib/layout/layout';
 import React from 'react'
-import styled from 'styled-components';
 
-const Main = styled.div`
-  width: 1360px;
-  max-width: 1360px;
-  margin: 24px auto;
-  display: flex ;
-
-  @media (min-width: 768px) {
-    margin: 40px auto;
-  }
-`;
-
-const Container = ({ children }) => {
+const WrapperContainer = ({ children }) => {
   return (
-    <Main>
-      <Content>
+    <div className="bg-base-200 w-full">
+      <div className="w-full max-w-[1360px] mx-auto my-5 md:my-10">
         {children}
-      </Content>
-    </Main>
+      </div>
+    </div>
   )
 }
 
-export default Container;
+export default WrapperContainer

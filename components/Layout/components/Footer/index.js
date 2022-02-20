@@ -1,10 +1,10 @@
-import { Footer as FooterAntd } from 'antd/lib/layout/layout'
 import React from 'react'
 
 const Footer = () => {
   return (
-    <FooterAntd style={{ textAlign: 'center' }}>Created by <a href="https://github.com/jeansflores">jeansflores</a></FooterAntd>
+    <footer className="text-center p-5 w-full shrink-0">
+    </footer>
   )
 }
 
-export default Footer;
+export default Footer

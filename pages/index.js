@@ -1,15 +1,13 @@
-import { Breadcrumb, Menu } from 'antd';
-import Head from 'next/head'
-import Image from 'next/image'
-import LayoutPage from '../components/Layout';
-import styles from '../styles/theme.less'
+import React from 'react'
+
+import Layout from '../components/Layout'
 
 const Home = () => {
   return (
-    <LayoutPage>
+    <Layout>
       Home
-    </LayoutPage>
+    </Layout>
   )
 }
 
-export default Home;
+export default Home

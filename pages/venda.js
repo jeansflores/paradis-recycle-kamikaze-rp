@@ -1,12 +1,13 @@
 import React from 'react'
-import LayoutPage from '../components/Layout';
+
+import Layout from '../components/Layout'
 
 const Venda = () => {
   return (
-    <LayoutPage>
+    <Layout>
       Venda
-    </LayoutPage>
+    </Layout>
   )
 }
 
-export default Venda;
+export default Venda

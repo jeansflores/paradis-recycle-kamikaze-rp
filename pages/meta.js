@@ -1,12 +1,13 @@
 import React from 'react'
-import LayoutPage from '../components/Layout';
+
+import Layout from '../components/Layout'
 
 const Meta = () => {
   return (
-    <LayoutPage>
+    <Layout>
       Meta
-    </LayoutPage>
+    </Layout>
   )
 }
 
-export default Meta;
+export default Meta

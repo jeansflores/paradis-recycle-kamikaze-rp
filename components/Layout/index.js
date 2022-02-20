@@ -1,19 +1,20 @@
 import React from 'react'
-import Layout from 'antd/lib/layout/layout';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Container from './components/Container';
 
-const LayoutPage = ({ children }) => {
+import WrapperContainer from './components/Container'
+import Footer from './components/Footer'
+import WrapperHeader from './components/Header'
+
+const Layout = ({ children }) => {
   return (
-    <Layout>
-      <Header />
-      <Container>
-        {children}
-      </Container>
-      <Footer />
-    </Layout>
+    <main className="bg-base-200">
+      <WrapperHeader>
+        <WrapperContainer>
+          {children}
+        </WrapperContainer>
+        <Footer />
+      </WrapperHeader>
+    </main>
   )
 }
 
-export default LayoutPage;
+export default Layout
