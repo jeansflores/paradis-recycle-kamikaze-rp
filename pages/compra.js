@@ -10,14 +10,14 @@ import { getScraps } from '../services/scraps'
 const formSchema = Yup.object().shape({
   seller: Yup.string().required('Campo obrigatório.'),
   purchaser: Yup.string().required('Campo obrigatório.'),
-  cardboard: Yup.number().positive('Apenas números positivos.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
-  bottle: Yup.number().positive('Apenas números positivos.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
-  glass: Yup.number().positive('Apenas números positivos.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
-  tin: Yup.number().positive('Apenas números positivos.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
-  wire: Yup.number().positive('Apenas números positivos.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
-  rigid_plastic: Yup.number().positive('Apenas números positivos.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
-  circuit: Yup.number().positive('Apenas números positivos.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
-  antenna: Yup.number().positive('Apenas números positivos.').required('Campo obrigatório.').nullable('Campo obrigatório.')
+  cardboard: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
+  bottle: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
+  glass: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
+  tin: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
+  wire: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
+  rigid_plastic: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
+  circuit: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
+  antenna: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.')
 })
 
 const initialForm = {
@@ -57,7 +57,7 @@ const Compra = ({ scraps }) => {
   const recalculate = () => {
     const prices = {}
     scraps.forEach(scrap => {
-      prices[scrap.key] = scrap.purchase_price * formik.values[scrap.key]
+      prices[scrap.key] = formik.values[scrap.key] >= 0 ? scrap.purchase_price * formik.values[scrap.key] : 0
     })
 
     const total = Object.values(prices).reduce((acc, current) => {
@@ -76,7 +76,7 @@ const Compra = ({ scraps }) => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <div className="normal-case px-6">
-        <h1 className="font-medium text-3xl text-center mb-4">Calculadora de Compra</h1>
+        <h1 className="font-medium text-3xl text-center mb-4">Calculadora de <span className="text-primary font-bold">Compra</span></h1>
         <p className="text-lg text-center mb-2">Está tabela irá auxiliar no cálculo para a compra dos itens recicláveis, coletados pelos clientes da Paradis Recycle na cidade.</p>
         <p className="text-lg text-center mb-10">Após o preencimento dos dados poderá ser gerado um extrado da compra realizada.</p>
       </div>
