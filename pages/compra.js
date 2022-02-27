@@ -1,46 +1,53 @@
+/* eslint-disable space-before-function-paren */
 /* eslint-disable indent */
 import { useFormik } from 'formik'
 import Head from 'next/head'
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import * as Yup from 'yup'
 
+import { ExtracModal } from '../components/ExtractModal'
 import LayoutPage from '../components/Layout'
 import { getScraps } from '../services/scraps'
+import { isLoading, isVisible, reset, set } from '../store/reducers/extract'
 
 const formSchema = Yup.object().shape({
   seller: Yup.string().required('Campo obrigatório.'),
   purchaser: Yup.string().required('Campo obrigatório.'),
-  cardboard: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
-  bottle: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
-  glass: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
-  tin: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
-  wire: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
-  rigid_plastic: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
-  circuit: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.'),
-  antenna: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.').required('Campo obrigatório.').nullable('Campo obrigatório.')
+  cardboard: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.'),
+  bottle: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.'),
+  glass: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.'),
+  tin: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.'),
+  wire: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.'),
+  rigidPlastic: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.'),
+  circuit: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.'),
+  antenna: Yup.number().moreThan(-1, 'Valor deve ser maior ou igual a zero.')
 })
 
 const initialForm = {
   seller: '',
   purchaser: '',
-  cardboard: null,
-  bottle: null,
-  glass: null,
-  tin: null,
-  wire: null,
-  rigid_plastic: null,
-  circuit: null,
-  antenna: null
+  cardboard: '',
+  bottle: '',
+  glass: '',
+  tin: '',
+  wire: '',
+  rigidPlastic: '',
+  circuit: '',
+  antenna: ''
 }
 
 const Compra = ({ scraps }) => {
+  const extract = useSelector((state) => state.extract)
+  const dispatch = useDispatch()
+
   const [totalPurchase, setTotalPurchase] = useState({
     cardboard: 0,
     bottle: 0,
     glass: 0,
     tin: 0,
     wire: 0,
-    rigid_plastic: 0,
+    rigidPlastic: 0,
     circuit: 0,
     antenna: 0,
     total: 0
@@ -49,8 +56,29 @@ const Compra = ({ scraps }) => {
   const formik = useFormik({
     initialValues: initialForm,
     validationSchema: formSchema,
-    onSubmit: (values) => {
-      console.log({ values })
+    onSubmit: ({ seller, purchaser, ...rest }) => {
+      const extractResume = {}
+
+      dispatch(isLoading(true))
+
+      Object.keys(rest).forEach((key) => {
+        extractResume[key] = {
+          quantity: Number(rest[key]),
+          value: totalPurchase[key]
+        }
+      })
+
+      setTimeout(() => {
+        dispatch(set({
+          ...extractResume,
+          total: totalPurchase.total,
+          seller,
+          purchaser
+        }))
+
+        dispatch(isLoading(false))
+        dispatch(isVisible(true))
+      }, 1000)
     }
   })
 
@@ -176,29 +204,27 @@ const Compra = ({ scraps }) => {
           </table>
         </div>
 
-        <div className="mt-10 text-center">
+        <div className="flex mt-10 w-full mx-auto max-w-[700px] justify-between">
+          <label
+            className='btn modal-button bg-secundary'
+            onClick={() => {
+              formik.resetForm()
+              dispatch(reset())
+            }}
+          >
+            Resetar Compra
+          </label>
           <button
             type="submit"
-            htmlFor="2extract"
-            disabled={!formik.dirty || (!formik.isValidating && !formik.isValid)}
-            className="btn modal-button bg-primary"
+            className={`btn modal-button bg-primary ${extract.loading ? 'loading' : ''}`}
+            disabled={extract.loading || !formik.dirty || (!formik.isValidating && !formik.isValid)}
           >
             Gerar extrato
           </button>
         </div>
       </form>
 
-      <input type="checkbox" id="extract" className="modal-toggle" />
-
-      <div className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Congratulations random Interner user!</h3>
-          <p className="py-4">You`ve been selected for a chance to get one year of subscription to use Wikipedia for free!</p>
-          <div className="modal-action">
-            <label htmlFor="extract" className="btn">Yay!</label>
-          </div>
-        </div>
-      </div>
+      <ExtracModal id="compra" />
     </LayoutPage>
   )
 }

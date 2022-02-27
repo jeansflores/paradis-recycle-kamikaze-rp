@@ -5,3 +5,7 @@
 .table th:first-child {
   position: inherit;
 }
+
+.Toastify__progress-bar-theme--light {
+  background: #ff6400 !important;
+}

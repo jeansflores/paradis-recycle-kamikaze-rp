@@ -37,7 +37,7 @@ export default function handler(req, res) {
     },
     {
       id: 6,
-      key: 'rigid_plastic',
+      key: 'rigidPlastic',
       name: 'Plástico Duro',
       purchase_price: 6.00,
       sale_price: 18.00
