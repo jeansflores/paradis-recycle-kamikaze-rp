@@ -85,7 +85,7 @@ const Venda = ({ scraps }) => {
   const recalculate = () => {
     const prices = {}
     scraps.forEach(scrap => {
-      prices[scrap.key] = formik.values[scrap.key] >= 0 ? scrap.purchase_price * formik.values[scrap.key] : 0
+      prices[scrap.key] = formik.values[scrap.key] >= 0 ? scrap.sale_price * formik.values[scrap.key] : 0
     })
 
     const total = Object.values(prices).reduce((acc, current) => {
